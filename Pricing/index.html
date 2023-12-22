@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Table</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Choose your Plan for Hosting Of Website</h2>
+        <div class="currency-selector">
+            <label for="currency">Select Currency: </label>
+            <select id="currency" onchange="updateCurrency(this.value)">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="INR">INR</option>
+            </select>
+        </div>
+        <div class="price-tabs">
+            <button class="tab monthly-tab active" onclick="showTab('monthly')">Monthly</button>
+            <button class="tab yearly-tab" onclick="showTab('yearly')">Yearly</button>
+        </div>
+        <div class="price-row monthly">
+            <div class="price-col">
+                <p>Starter</p>
+                <h3 data-original-price="19">$19<span class="currency">/month</span></h3>
+                <ul>
+                    <li>1 Website</li>
+                    <li>10 GB Disk Space</li>
+                    <li>Free Email Address</li>
+                    <li>Basic Web Builder</li>
+                    <li>No SSL Certificate</li>
+                    <li>Limited Support</li>
+                </ul>
+                <button>Add To Cart</button>
+            </div>
+            <div class="price-col">
+                <p>Advanced</p>
+                <h3 data-original-price="29">$29<span class="currency">/month</span></h3>
+                <ul>
+                    <li>3 Websites</li>
+                    <li>30 GB Disk Space</li>
+                    <li>Free Email Addresses</li>
+                    <li>Advanced Web Builder</li>
+                    <li>SSL Certificate</li>
+                    <li>24/7 Support</li>
+                </ul>
+                <button>Add To Cart</button>
+            </div>
+            <div class="price-col">
+                <p>Premium</p>
+                <h3 data-original-price="49">$49<span class="currency">/month</span></h3>
+                <ul>
+                    <li>Unlimited Websites</li>
+                    <li>100 GB Disk Space</li>
+                    <li>Free Email Addresses</li>
+                    <li>Premium Web Builder</li>
+                    <li>SSL Certificate</li>
+                    <li>24/7 Premium Support</li>
+                </ul>
+                <button>Add To Cart</button>
+            </div>
+        </div>
+        <div class="price-row yearly" style="display: none;">
+            <!-- Yearly pricing content here -->
+            <div class="price-col">
+                <p>Starter</p>
+                <h3 data-original-price="190">$190<span class="currency">/year</span></h3>
+                <ul>
+                    <li>1 Website</li>
+                    <li>10 GB Disk Space</li>
+                    <li>Free Email Address</li>
+                    <li>Basic Web Builder</li>
+                    <li>No SSL Certificate</li>
+                    <li>Limited Support</li>
+                </ul>
+                <button>Add To Cart</button>
+            </div>
+            <div class="price-col">
+                <p>Advanced</p>
+                <h3 data-original-price="290">$290<span class="currency">/year</span></h3>
+                <ul>
+                    <li>3 Websites</li>
+                    <li>30 GB Disk Space</li>
+                    <li>Free Email Addresses</li>
+                    <li>Advanced Web Builder</li>
+                    <li>SSL Certificate</li>
+                    <li>24/7 Support</li>
+                </ul>
+                <button>Add To Cart</button>
+            </div>
+            <div class="price-col">
+                <p>Premium</p>
+                <h3 data-original-price="490">$490<span class="currency">/year</span></h3>
+                <ul>
+                    <li>Unlimited Websites</li>
+                    <li>100 GB Disk Space</li>
+                    <li>Free Email Addresses</li>
+                    <li>Premium Web Builder</li>
+                    <li>SSL Certificate</li>
+                    <li>24/7 Premium Support</li>
+                </ul>
+                <button>Add To Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const rows = document.querySelectorAll('.price-row');
+            rows.forEach(row => row.style.display = 'none');
+
+            document.querySelector(`.${tabName}-tab`).classList.add('active');
+            document.querySelector(`.${tabName}`).style.display = 'grid';
+        }
+
+        function updateCurrency(currency) {
+            const monthlyPrices = document.querySelectorAll('.monthly h3');
+            const yearlyPrices = document.querySelectorAll('.yearly h3');
+
+            monthlyPrices.forEach(price => {
+                const originalPrice = parseFloat(price.dataset.originalPrice);
+                const convertedPrice = convertCurrency(originalPrice, currency);
+                price.innerHTML = formatPrice(convertedPrice, currency) + '<span class="currency">/month</span>';
+            });
+
+            yearlyPrices.forEach(price => {
+                const originalPrice = parseFloat(price.dataset.originalPrice);
+                const convertedPrice = convertCurrency(originalPrice, currency);
+                price.innerHTML = formatPrice(convertedPrice, currency) + '<span class="currency">/year</span>';
+            });
+        }
+
+        function convertCurrency(amount, currency) {
+            // You can implement the actual conversion logic here based on the selected currency
+            // For simplicity, let's assume 1 USD = 0.85 EUR, 1 USD = 74 INR
+            const conversionRates = {
+                USD: 1,
+                EUR: 0.85,
+                INR: 74
+            };
+
+            return amount * conversionRates[currency];
+        }
+
+        function formatPrice(price, currency) {
+            // You can implement more advanced formatting based on the selected currency
+            // For simplicity, let's assume all currencies use "$" for now
+            return currency + price.toFixed(2);
+        }
+
+        // Initial currency update
+        updateCurrency('USD');
+    </script>
+</body>
+
+</html>
